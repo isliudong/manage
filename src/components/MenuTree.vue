@@ -1,24 +1,23 @@
 <template>
     <div>
       <template v-for="item in this.MenuList">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          background-color="#001529"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          :collapse="isCollapse"
-          :collapse-transition="false">
-          <el-submenu :disabled="item.disabled" :index="item.id+''" :key="item.id+''" :v-if="item.children.length()>0">
+          <el-submenu :disabled="item.disabled" :index="item.id+''" :key="item.id+''" v-if="item.children.length>0">
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{item.menuName}}</span>
             </template>
             <menu-tree :menu-list="item.children"></menu-tree>
           </el-submenu>
-        </el-menu>
+          <el-menu-item v-else
+                        :disabled="item.disabled"
+                        :index="item.url+''"
+                        :route="item.url+''"
+                        :key="item.id"
+
+          >
+            <i :class="item.icon"></i>
+            <span slot="title">{{item.menuName}}</span>
+          </el-menu-item>
       </template>
     </div>
 </template>
@@ -31,5 +30,13 @@
 </script>
 
 <style scoped>
-
+  /*侧边菜单溢出处理*/
+  .el-menu--collapse span,
+  .el-menu--collapse i.el-submenu__icon-arrow{
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+    display: inline-block;
+  }
 </style>
